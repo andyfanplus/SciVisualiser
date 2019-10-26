@@ -1,0 +1,38 @@
+PROJECT(MainWindow)
+
+SET(LIBRARY_OUTPUT_PATH  "../")
+
+ADD_DEFINITIONS(-DMAINWINDOW_EXPORTS) 
+
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON) 
+
+
+FILE(GLOB HEAD_FILES "./*.h") 
+FILE(GLOB SRC_FILES "./*.cpp")
+FILE(GLOB UI_FILES "./resource/*.ui")
+
+qt5_wrap_cpp(MOC_FILES ${HEAD_FILES})
+qt5_wrap_ui(WRAP_FILES ${UI_FILES})
+
+
+source_group("Headers" ${HEAD_FILES})
+source_group("Sources" ${SRC_FILES})
+source_group("Ui" FILES ${UI_FILES})
+source_group("Generated" FILES  ${WRAP_FILES} ${MOC_FILES})
+
+
+add_library(${PROJECT_NAME} SHARED 
+${HEAD_FILES} 
+${SRC_FILES} 
+${UI_FILES} 
+${WRAP_FILES}
+${MOC_FILES}
+)
+
+
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} 
+${VTK_LIBRARIES}
+Qt5::Core Qt5::Gui Qt5::Widgets Qt5::OpenGL
+)
+
